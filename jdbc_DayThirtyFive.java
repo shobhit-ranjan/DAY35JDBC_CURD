@@ -5,16 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 public class jdbc_DayThirtyFive {
 
 	public static void main(String[] args) {
 		getsqlConnection();
-		//writeempData();
+		// writeempData();
 		readEmployeePayroll();
+		showEmployeesbtweenDate();
 
 	}
-	
-	
+
 	private static void writeempData() {
 		Connection conn = getsqlConnection();
 		try {
@@ -25,12 +26,12 @@ public class jdbc_DayThirtyFive {
 			insertStatement.setString(2, "Autal");
 			insertStatement.setInt(3, 4900);
 			insertStatement.setDate(4, new Date(896520206000L));
-			   
+
 			int rowInserted = insertStatement.executeUpdate();
-			if(rowInserted > 0){
+			if (rowInserted > 0) {
 				System.out.println("Data Inserted");
-		}
-		}catch (SQLException e) {
+			}
+		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 
 		} finally {
@@ -43,6 +44,7 @@ public class jdbc_DayThirtyFive {
 			}
 		}
 	}
+
 	private static void readEmployeePayroll() {
 		System.out.println("Displaying all data of employee_payroll table");
 		Connection conn = getsqlConnection();
@@ -58,8 +60,8 @@ public class jdbc_DayThirtyFive {
 					String name = resultSet.getString(2);
 					Integer salary = resultSet.getInt(3);
 					String date = resultSet.getString(4);
-					String row = String.format("User record: \n Id: %d, \n Name: %s,\n DAte: %d, \n", id, name,
-							salary, date);
+					String row = String.format("User record: \n Id: %d, \n Name: %s,\n DAte: %d, \n", id, name, salary,
+							date);
 					System.out.println(row);
 				}
 			}
@@ -77,6 +79,47 @@ public class jdbc_DayThirtyFive {
 		}
 
 	}
+
+	private static void showEmployeesbtweenDate() {
+		System.out.println("Displaying employees joined between given dates");
+		Connection conn = getsqlConnection();
+
+		try {
+			if (conn != null) {
+
+				String selQuery = "SELECT * FROM employee_payrolldar35 WHERE dateofjoin > ? AND dateofjoin < ?";
+				PreparedStatement Statement = conn.prepareStatement(selQuery);
+				Statement.setString(1, "1989-09-26");
+				Statement.setString(2, "1990-02-01");
+				ResultSet resultData = Statement.executeQuery();
+
+				while (resultData.next()) {
+
+					int id = resultData.getInt("empid");
+					String name = resultData.getString("empname");
+					int salary = resultData.getInt("empsalary");
+					String startDate = resultData.getDate("dateofjoin").toString();
+
+					String rowData = String.format("\nId : %d \nName : %s \nGender : %s \nSalary : %d \nStartDate : %s",
+							id, name, salary, startDate);
+					System.out.println(rowData);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException sqlException) {
+					System.out.println(sqlException.getMessage());
+
+				}
+			}
+		}
+
+	}
+
 	private static Connection getsqlConnection() {
 		Connection conn = null;
 		String hostUrl = "jdbc:mysql://localhost:3306/emp_payroll";
@@ -89,8 +132,6 @@ public class jdbc_DayThirtyFive {
 
 		}
 		return conn;
-
 	}
 
 }
-
