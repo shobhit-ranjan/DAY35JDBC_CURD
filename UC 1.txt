@@ -11,3 +11,34 @@ mysql> show tables;
 2 rows in set (0.00 sec)
 
 mysql>
+
+mysql> create Table employee_payrolldar35(empid int(20),empname varchar(80),empsalary int(30),dateofjoin DATE);
+Query OK, 0 rows affected, 2 warnings (0.06 sec)
+
+mysql> show tables;
++-----------------------+
+| Tables_in_emp_payroll |
++-----------------------+
+| employee_payroll      |
+| employee_payrolldar35 |
++-----------------------+
+2 rows in set (0.00 sec)
+
+mysql> describe  employee_payrolldar35;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| empid      | int         | YES  |     | NULL    |       |
+| empname    | varchar(80) | YES  |     | NULL    |       |
+| empsalary  | int         | YES  |     | NULL    |       |
+| dateofjoin | date        | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from  employee_payrolldar35;
++-------+---------+-----------+------------+
+| empid | empname | empsalary | dateofjoin |
++-------+---------+-----------+------------+
+|   100 | Shobhit |      5000 | 1989-09-26 |
++-------+---------+-----------+------------+
+1 row in set (0.00 sec)
