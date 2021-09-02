@@ -2,9 +2,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Scanner;
 public class jdbc_DayThirtyFive {
 
 	public static void main(String[] args) {
@@ -20,10 +18,10 @@ public class jdbc_DayThirtyFive {
 
 			String insertQuery = "INSERT INTO  employee_payrolldar35(empid, empname, empsalary, dateofjoin) VALUES (?,?,?,?)";
 			PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
-			insertStatement.setInt(1, 100);
-			insertStatement.setString(2, "Shobhit");
-			insertStatement.setInt(3, 5000);
-			insertStatement.setDate(4, new Date(622790105000L));
+			insertStatement.setInt(1, 110);
+			insertStatement.setString(2, "Autal");
+			insertStatement.setInt(3, 4900);
+			insertStatement.setDate(4, new Date(896520206000L));
 			   
 			int rowInserted = insertStatement.executeUpdate();
 			if(rowInserted > 0){
