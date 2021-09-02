@@ -10,9 +10,10 @@ public class jdbc_DayThirtyFive {
 
 	public static void main(String[] args) {
 		getsqlConnection();
-		// writeempData();
+		//writeempData();
 		readEmployeePayroll();
 		showEmployeesbtweenDate();
+		findingAlldetails();
 
 	}
 
@@ -89,8 +90,8 @@ public class jdbc_DayThirtyFive {
 
 				String selQuery = "SELECT * FROM employee_payrolldar35 WHERE dateofjoin > ? AND dateofjoin < ?";
 				PreparedStatement Statement = conn.prepareStatement(selQuery);
-				Statement.setString(1, "1989-09-26");
-				Statement.setString(2, "1990-02-01");
+				Statement.setDate(1, new Date(896520206000L));
+				Statement.setDate(2, new Date(987620206000L));
 				ResultSet resultData = Statement.executeQuery();
 
 				while (resultData.next()) {
@@ -118,6 +119,44 @@ public class jdbc_DayThirtyFive {
 			}
 		}
 
+	}
+
+	private static void findingAlldetails() {
+		System.out.println("Displaying all values ");
+		Connection conn = getsqlConnection();
+
+		try {
+			if (conn != null) {
+				String readEmpPayroll = "SELECT min(empsalary), max(empsalary),sum(empsalary),avg(empsalary),count(empsalary) FROM employee_payrolldar35";
+
+				Statement statement = conn.createStatement();
+				ResultSet resultSet = statement.executeQuery(readEmpPayroll);
+				while (resultSet.next()) {
+
+					int minSalary = resultSet.getInt(1);
+					int maxSalary = resultSet.getInt(2);
+					int sumSalary = resultSet.getInt(3);
+					int avgSalary = resultSet.getInt(4);
+					int countSalary = resultSet.getInt(5);
+
+					String row = String.format(
+							"User record: \n Min: %d, \n Max: %d,\n Sum: %d,\n Avg: %d,\n Count: %d,", minSalary,
+							maxSalary, sumSalary, avgSalary, countSalary);
+					System.out.println(row);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException sqlException) {
+					System.out.println(sqlException.getMessage());
+
+				}
+			}
+		}
 	}
 
 	private static Connection getsqlConnection() {
